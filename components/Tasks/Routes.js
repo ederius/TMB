@@ -11,6 +11,7 @@ tasksRoutes
   .post('/api/v1/task', isRegisteredUser, tasksValidations.validateCreate, TasksController.create)
   .put('/api/v1/task/:_id', isRegisteredUser, TasksController.update)
   .get('/api/v1/tasks', isRegisteredUser, tasksValidations.validateList, TasksController.list)
+  .get('/api/v1/task/:_id', isRegisteredUser, tasksValidations.validateDetails, TasksController.details)
   .post('/api/v1/task/start', isRegisteredUser, tasksValidations.validateStartTask, TasksController.startTask)
   .post('/api/v1/task/stop', isRegisteredUser, tasksValidations.validateStopTask, TasksController.stopTask)
 

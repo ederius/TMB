@@ -3,7 +3,10 @@ const bodyParser = require("body-parser")
 const routes = require('./routes')
 const morgan = require('morgan')
 const expressValidator = require('express-validator')
+const DbClass = require('./components/Db/Db')
 const app = express()
+// database 
+new DbClass()
 
 const allowCrossDomain = (req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*')
@@ -25,7 +28,8 @@ app.use(morgan('tiny'))
 app.use(
   routes.ProjectsRoutes,
   routes.UsersRoutes,
-  routes.TasksRoutes
+  routes.TasksRoutes,
+  routes.ClientsRoutes
 )
 
 const server = require('http').createServer(app)

@@ -16,8 +16,10 @@ module.exports = class Db {
         this.url = `mongodb+srv://${configDB.username}:${configDB.password}@${configDB.uri}`;
       }
       MongoClient.connect(this.url, {useNewUrlParser: true}, (err, client) => {
-        this.client = client;
-        this.Db = client.db('TMB');        
+        global.client = client;
+        global.Db = client.db('TMB');   
+        console.info("Connected with mongo atlas!!");
+             
       });
     } catch (error) {
 

@@ -1,14 +1,16 @@
 const express = require('express')
-const usersRoutes = express.Router()
+const projectsRoutes = express.Router()
 // class
-const ProjectsClass = require('./Projects')
-const Projects = new ProjectsClass()
+const ProjectsControllers = require('./Controllers')
 // validations
 const validationsProjects = require('./Validations')
 
 // projects routes
-usersRoutes
-  .post('/api/v1/user', validationsProjects.validateCreate, Projects.create)
+projectsRoutes
+  .post('/api/v1/project', validationsProjects.validateCreate, ProjectsControllers.create)
+  .get('/api/v1/projects', validationsProjects.validateList, ProjectsControllers.list)
+  .put('/api/v1/project/:_id', ProjectsControllers.update)
+  .delete('/api/v1/project/:_id', ProjectsControllers.delete)
 
 
-  module.exports = usersRoutes
+  module.exports = projectsRoutes

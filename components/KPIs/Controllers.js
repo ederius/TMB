@@ -1,12 +1,12 @@
-const ProjectsClass = require('./Projects')
+const KPIsClass = require('./KPIs')
 const { validationResult } = require('express-validator/check')
 
-exports.create = async (req, res, next) => {
+exports.KPIProjects = async (req, res, next) => {
     try {
         const errors = validationResult(req)
         if (errors.isEmpty()) {
-            const Projects = new ProjectsClass(req)
-            const response = await Projects.create()
+            const Clients = new KPIsClass(req)
+            const response = await Clients.KPIProjects()
             res.status(200).send(response)
         }else{
             res.status(400).send({ code: 4, message: "Validation errors", error: errors.array() })
@@ -16,12 +16,12 @@ exports.create = async (req, res, next) => {
     }
 }
 
-exports.update = async (req, res, next) => {
+exports.KPIUser = async (req, res, next) => {
     try {
         const errors = validationResult(req)
         if (errors.isEmpty()) {
-            const Projects = new ProjectsClass(req)
-            const response = await Projects.update()
+            const Clients = new KPIsClass(req)
+            const response = await Clients.KPIUser()
             res.status(200).send(response)
         }else{
             res.status(400).send({ code: 4, message: "Validation errors", error: errors.array() })
@@ -31,27 +31,12 @@ exports.update = async (req, res, next) => {
     }
 }
 
-exports.list = async (req, res, next) => {
+exports.KPIUsersByProject = async (req, res, next) => {
     try {
         const errors = validationResult(req)
         if (errors.isEmpty()) {
-            const Projects = new ProjectsClass(req)
-            const response = await Projects.list()
-            res.status(200).send(response)
-        }else{
-            res.status(400).send({ code: 4, message: "Validation errors", error: errors.array() })
-        }
-    } catch (errors) {
-        res.status(400).send(errors)
-    }
-}
-
-exports.delete = async (req, res, next) => {
-    try {
-        const errors = validationResult(req)
-        if (errors.isEmpty()) {
-            const Projects = new ProjectsClass(req)
-            const response = await Projects.delete()
+            const Clients = new KPIsClass(req)
+            const response = await Clients.KPIUsersByProject()
             res.status(200).send(response)
         }else{
             res.status(400).send({ code: 4, message: "Validation errors", error: errors.array() })

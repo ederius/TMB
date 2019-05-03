@@ -1,9 +1,9 @@
 // packages
 const ObjectID = require('mongodb').ObjectID;
 
-exports.validateDidStartTaks = async (Db, _id) => {
+exports.validateDidStartTaks = async (_id) => {
     _id= ObjectID(_id)
-    const task = await Db.collection('tasks').findOne({_id}, {w:'majority'});
+    const task = await global.Db.collection('tasks').findOne({_id}, {w:'majority'});
     return task.start ? false : true ;
 }
 
@@ -20,3 +20,29 @@ exports.secondsToHms = (d) => {
         s = '0'+String(s)
     return `${h}:${m}:${s}`; 
 }
+
+exports.detailsTask = async (_id) => (
+    await global.Db.collection('tasks').aggregate([
+        {
+            '$match': {
+                '_id': ObjectID(_id),
+            },
+        },
+        {
+            '$lookup': {
+                from: 'users',
+                localField: 'userId',
+                foreignField: '_id',
+                as: 'user',
+            }
+        },
+        {
+            '$lookup': {
+                from: 'taskTimes',
+                localField: 'taskTimesId',
+                foreignField: '_id',
+                as: 'taskTimes',
+            }
+        },
+    ]).toArray()
+)

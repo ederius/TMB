@@ -12,6 +12,10 @@ exports.validateCreate = [
       .isString().withMessage(constants.validations.string)
       .exists().withMessage(constants.validations.exist)
       .not().withMessage(constants.validations.not),
+    check('projectId')
+      .isMongoId().withMessage(constants.validations.isMongoId)
+      .exists().withMessage(constants.validations.exist)
+      .not().withMessage(constants.validations.not)
 ]
 
 exports.validateList = [
@@ -25,9 +29,16 @@ exports.validateList = [
     .not().withMessage(constants.validations.not),
 ]
 
+exports.validateDetails = [
+  check('_id')
+    .isMongoId().withMessage(constants.validations.isMongoId)
+    .exists().withMessage(constants.validations.exist)
+    .not().withMessage(constants.validations.not)
+]
+
 exports.validateStartTask = [
   check('taskId')
-  .isString().withMessage(constants.validations.string)
+  .isMongoId().withMessage(constants.validations.isMongoId)
   .exists().withMessage(constants.validations.exist)
   .not().withMessage(constants.validations.not),
 check('start')
@@ -39,7 +50,7 @@ check('start')
 
 exports.validateStopTask = [
   check('taskId')
-    .isString().withMessage(constants.validations.string)
+    .isMongoId().withMessage(constants.validations.isMongoId)
     .exists().withMessage(constants.validations.exist)
     .not().withMessage(constants.validations.not),
   check('start')

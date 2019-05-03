@@ -12,20 +12,16 @@ const {verify} = require('jsonwebtoken');
 const _ = require('lodash');
 // utils
 const Utils = require('../../utils/Utils');
-// Database
-const DbClass = require('../Db/Db')
-const DbInstance = new DbClass()
 
 module.exports = class Users {
   constructor(context) {
       this.context = context
-      this.Db = DbInstance.Db
   }
 
   async signin() {
     try {
         let data = this.context
-        let user = await this.Db.collection('users').findOne({
+        let user = await global.Db.collection('users').findOne({
             email: data.email
         }, {w: 'majority'});
         if (user) {
@@ -50,38 +46,12 @@ module.exports = class Users {
     try {
         let data = this.context
         data.password = await services.hashPassword(data.password);
-        const result = await Utils.insertOne(this.Db, 'users', data);
-        return {code: 1, message: "Signup user success!!", user: result.ops[0]};
+        const result = await Utils.insertOne('users', data);
+        return {code: 1, message: "Signup user successfully!!", user: result.ops[0]};
     } catch (errors) {
       console.log(errors);
       return {code: 0, message: Messages.serverError, errors};
     }
   }
 
-  async signout() {
-    try {
-      try {
-        const token = await services.validateSendedToken(context.request);
-        const _id = await services.validateTokenSignin(token);
-        const result = await services.deleteCredentialsRedisUser(_id);
-        return {code: 1, message: Messages.signout.success};
-      } catch (error) {
-        return {code: 1, message: error};
-      }
-    } catch (errors) {
-      console.log(errors);
-      return {code: 0, message: Messages.serverError, errors};
-    }
-  }
-
-
-  async emailOrUsernameDuplicate(parent, args, context) {
-    try {
-      const user = await this.Db.collection('users').findOne({$or: [{'email': args.search}, {username: args.search}]});
-      return !!user;
-    } catch (errors) {
-      console.log(errors);
-      return {code: 0, message: Messages.serverError, errors};
-    }
-  }
 };

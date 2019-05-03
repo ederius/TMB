@@ -66,6 +66,7 @@ module.exports = {
       isAfter: "The date must be after the current date.",
       ISODate: "The date sent does not have an ISO 8601 date format.",
       isURL: "The text sent does not have a URL format.",
+      isMongoId: "The fiels must be mongo id type",
       error: "Error, some parameters sent do not comply with the mandatory characteristics.",
     }
 }
