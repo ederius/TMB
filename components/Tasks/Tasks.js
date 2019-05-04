@@ -78,33 +78,40 @@ module.exports = class Tasks {
     async stopTask(){
         try {
             let { body } = this.context, result = ""
-            // add task time
-            let dataTaskTime = body
-            dataTaskTime.taskId = ObjectID(dataTaskTime.taskId)
-            dataTaskTime.stop = new Date(dataTaskTime.stop)
-            dataTaskTime.start = new Date(dataTaskTime.start)
-            const durationTaskTimes = moment(body.stop).diff(body.start, 'seconds')
-            dataTaskTime.duration = Services.secondsToHms(durationTaskTimes)
-            const taskTime = await Utils.insertOne('taskTimes', dataTaskTime);
-            // Query de time start task
+            // Query time start task
             const task = await global.Db.collection('tasks').findOne({ _id: ObjectID(body.taskId) }, {w:'majority'});
-            // Calculate duration between start time and last stop time
-            const durationTask = moment(body.stop).diff(task.start, 'seconds')
-            let durationTotal = Services.secondsToHms(durationTask)
-            // update tasks with duration tasks
-            result = await global.Db.collection('tasks').findOneAndUpdate(
-                    {_id: ObjectID(body.taskId)},
-                    {
-                        $set: { 
-                            stop: body.stop, 
-                            duration: durationTotal, 
-                            updatedAt: new Date(moment().format()) 
+            if(task.start){ // validate if taks have did be started
+                let dataTaskTime = body
+                dataTaskTime.taskId = ObjectID(dataTaskTime.taskId)
+                dataTaskTime.stop = new Date(dataTaskTime.stop)
+                dataTaskTime.start = new Date(dataTaskTime.start)
+                // duration tasks
+                const durationInSecondsNewTime = moment(body.stop).diff(body.start, 'seconds')
+                const durationCurrentTask = task.durationInSeconds ? task.durationInSeconds : 0 ;
+                const durationInSecondsTotalTask = durationInSecondsNewTime + durationCurrentTask ;
+                // duration in h:m:s format
+                dataTaskTime.durationHms = Services.secondsToHms(durationInSecondsNewTime)
+                dataTaskTime.durationInSeconds = durationInSecondsNewTime
+                // save interval tasks
+                const taskTime = await Utils.insertOne('taskTimes', dataTaskTime);
+                // update tasks with duration tasks
+                result = await global.Db.collection('tasks').findOneAndUpdate(
+                        {_id: ObjectID(body.taskId)},
+                        {
+                            $set: { 
+                                stop: body.stop, 
+                                durationInSeconds: durationInSecondsTotalTask, 
+                                updatedAt: new Date(moment().format()) 
+                            },
+                            $push: { taskTimesId: taskTime.ops[0]._id }
                         },
-                        $push: { taskTimesId: taskTime.ops[0]._id }
-                    },
-                    {w: 'majority'}
-                )
-            return {code: 1, message: "Stoped tasks successfully!!"};
+                        {w: 'majority'}
+                    )
+                return {code: 1, message: "Stoped tasks successfully!!"};
+            }else{
+                return {code: 0, message: "uhhs, don't can stop one task that not did be started!!"};
+            }
+            
         } catch (errors) {
             console.log(errors);
             return {code: 0, message: Messages.serverError, errors};

@@ -35,7 +35,7 @@ exports.KPIUsersByProject = async (req, res, next) => {
     try {
         const errors = validationResult(req)
         if (errors.isEmpty()) {
-            const Clients = new KPIsClass(req)
+            const Clients = new KPIsClass(req.query)
             const response = await Clients.KPIUsersByProject()
             res.status(200).send(response)
         }else{

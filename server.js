@@ -29,7 +29,8 @@ app.use(
   routes.ProjectsRoutes,
   routes.UsersRoutes,
   routes.TasksRoutes,
-  routes.ClientsRoutes
+  routes.ClientsRoutes,
+  routes.KPIs
 )
 
 const server = require('http').createServer(app)

@@ -68,5 +68,6 @@ module.exports = {
       isURL: "The text sent does not have a URL format.",
       isMongoId: "The fiels must be mongo id type",
       error: "Error, some parameters sent do not comply with the mandatory characteristics.",
+      serverError: "Uhhs.  error in the server"
     }
 }

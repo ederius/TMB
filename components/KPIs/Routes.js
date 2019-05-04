@@ -4,12 +4,12 @@ const KPIsRoutes = express.Router()
 const KPIsControllers = require('./Controllers')
 // validations
 const validationsKPIs = require('./Validations')
+const { isRegisteredUser } = require('../../utils/auth')
 
 // KPIs routes
 KPIsRoutes
-  .get('/api/v1/KPI/projects', validationsKPIs.validateKPIsProjects, KPIsControllers.KPIProjects)
-  .get('/api/v1/KPI/users', validationsKPIs.validateKPIsUser, KPIsControllers.KPIUser)
-  .get('/api/v1/KPI/usersByProject', validationsKPIs.validateKPIUserByProject, KPIsControllers.KPIUsersByProject)
+  .get('/api/v1/KPI/projects', isRegisteredUser, KPIsControllers.KPIProjects)
+  .get('/api/v1/KPI/users', isRegisteredUser, KPIsControllers.KPIUser)
+  .get('/api/v1/KPI/userByProject', isRegisteredUser, validationsKPIs.validateKPIUserByProject, KPIsControllers.KPIUsersByProject)
 
-
-  module.exports = KPIsRoutes
+module.exports = KPIsRoutes
