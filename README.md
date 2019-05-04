@@ -19,10 +19,10 @@ Describe how to up the server in the differents environments that management sys
 ```sh
 
 //Production
-NODE_ENV=production node app.js
+NODE_ENV=production node server.js
 
 //QA
-NODE_ENV=QA node app.js
+NODE_ENV=QA node server.js
 
 //development
 NODE_ENV=developmet node app.js
