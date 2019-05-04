@@ -7,7 +7,7 @@ module.exports = {
       invalidToken: "Invalid token!"
     },
     success: {
-      1: "Success signin"
+      1: "Success sign in"
     }
   },
   auth: {

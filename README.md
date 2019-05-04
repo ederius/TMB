@@ -29,6 +29,22 @@ NODE_ENV=developmet node app.js
 
 ```
 
+## Tests
+
+To run the unit tests, we must verify that our server is running in our local environment and install the dependencies of a development environment added to our package file.
+```
+    npm install --only=dev
+```
+We must also install mochaJs globally
+```
+    npm install mocha -g
+```
+To execute the tests we must position ourselves inside the project folder and execute
+
+```
+mocha
+```
+
 ## Versions
 
 * 1.0.0
