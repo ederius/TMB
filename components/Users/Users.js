@@ -3,7 +3,7 @@ const DbsClass = require('./../Db/Db');
 // services
 const services = require('./Services');
 // constantes
-const Messages = require('../../constants/messages');
+const Messages = require('../../constants/Messages');
 // packages
 const ObjectID = require('mongodb').ObjectID;
 const moment = require('moment-timezone');
@@ -11,7 +11,7 @@ const timestamp = moment().tz('America/Bogota');
 const {verify} = require('jsonwebtoken');
 const _ = require('lodash');
 // utils
-const Utils = require('../../utils/Utils');
+const Utils = require('../../utils/utils');
 
 module.exports = class Users {
   constructor(context) {

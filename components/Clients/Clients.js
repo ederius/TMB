@@ -2,7 +2,7 @@
 const ObjectID = require('mongodb').ObjectID;
 const moment = require('moment')
 // utils
-const Utils = require('../../utils/Utils');
+const Utils = require('../../utils/utils');
 // services
 const Services = require('./Services')
 

@@ -2,7 +2,7 @@
 const {sign, verify} = require('jsonwebtoken');
 const redis = require('redis');
 // constants
-const Messages = require('../../constants/messages');
+const Messages = require('../../constants/Messages');
 const redisClient = redis.createClient();
 const expireJwtSignin = {expiresIn: '24hr'};
 
